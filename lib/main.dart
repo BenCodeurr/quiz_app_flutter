@@ -32,21 +32,33 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+  List<Icon> scoreKeeper = [];
+
+  List<String> questions = [
+    'Felix Antoine Tshisekedi has been elected for the 2nd time as the President of the DRC.',
+    'DRC is the 2nd largest Country in Africa.',
+    'The founder of LinkedIn is Sam Altman.'
+  ];
+
+  List<bool> answers = [true, true, false];
+
+  int questionNumber = 0;
+
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Expanded(
+        Expanded(
           flex: 5,
           child: Padding(
-            padding: EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                "This where the question will  go",
+                questions[questionNumber],
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20.0, color: Colors.white),
+                style: const TextStyle(fontSize: 22.0, color: Colors.white),
               ),
             ),
           ),
@@ -62,7 +74,27 @@ class _QuizPageState extends State<QuizPage> {
                   borderRadius: BorderRadius.circular(0.0),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                bool correctAnswer = answers[questionNumber];
+                if (correctAnswer == true) {
+                  scoreKeeper.add(
+                    const Icon(
+                      Icons.check,
+                      color: Colors.green,
+                    ),
+                  );
+                } else {
+                  scoreKeeper.add(
+                    const Icon(
+                      Icons.close,
+                      color: Colors.red,
+                    ),
+                  );
+                }
+                setState(() {
+                  questionNumber++;
+                });
+              },
               child: const Text(
                 'True',
                 style: TextStyle(fontSize: 20.0),
@@ -81,13 +113,36 @@ class _QuizPageState extends State<QuizPage> {
                   borderRadius: BorderRadius.circular(0.0),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                bool correctAnswer = answers[questionNumber];
+                if (correctAnswer == false) {
+                  scoreKeeper.add(
+                    const Icon(
+                      Icons.check,
+                      color: Colors.green,
+                    ),
+                  );
+                } else {
+                  scoreKeeper.add(
+                    const Icon(
+                      Icons.close,
+                      color: Colors.red,
+                    ),
+                  );
+                }
+                setState(() {
+                  questionNumber++;
+                });
+              },
               child: const Text(
                 'False',
                 style: TextStyle(fontSize: 20.0),
               ),
             ),
           ),
+        ),
+        Row(
+          children: scoreKeeper,
         ),
       ],
     );
