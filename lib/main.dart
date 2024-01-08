@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'quiz_brain.dart';
 
 void main() {
   runApp(const QuizApp());
 }
+
+var newQuiz = QuizBrain();
 
 class QuizApp extends StatelessWidget {
   const QuizApp({super.key});
@@ -34,15 +37,6 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List<Icon> scoreKeeper = [];
 
-  List<String> questions = [
-    'Felix Antoine Tshisekedi has been elected for the 2nd time as the President of the DRC.',
-    'DRC is the 2nd largest Country in Africa.',
-    'The founder of LinkedIn is Sam Altman.'
-  ];
-
-  List<bool> answers = [true, true, false];
-
-  int questionNumber = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +50,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: const EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                questions[questionNumber],
+                newQuiz.getQuestion(),
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: 22.0, color: Colors.white),
               ),
@@ -75,7 +69,8 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                bool correctAnswer = answers[questionNumber];
+                bool correctAnswer =
+                    newQuiz.getCorrectAnswer();
                 if (correctAnswer == true) {
                   scoreKeeper.add(
                     const Icon(
@@ -92,7 +87,7 @@ class _QuizPageState extends State<QuizPage> {
                   );
                 }
                 setState(() {
-                  questionNumber++;
+                  newQuiz.nextQuestion();
                 });
               },
               child: const Text(
@@ -114,7 +109,8 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                bool correctAnswer = answers[questionNumber];
+                bool correctAnswer =
+                    newQuiz.getCorrectAnswer();
                 if (correctAnswer == false) {
                   scoreKeeper.add(
                     const Icon(
@@ -131,7 +127,7 @@ class _QuizPageState extends State<QuizPage> {
                   );
                 }
                 setState(() {
-                  questionNumber++;
+                  newQuiz.nextQuestion();
                 });
               },
               child: const Text(
